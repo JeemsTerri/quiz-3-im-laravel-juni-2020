@@ -15,13 +15,13 @@ Route::get('/', function () {
     return view('gambar');
 });
 
-Route::get('/artikel/create', 'ArticleController@create'); // menampilkan halaman form
-Route::post('/artikel', 'ArticleController@store'); // menyimpan data
+Route::get('/artikel/create', 'ArticleController@create')->name('article.create'); // menampilkan halaman form
+Route::post('/artikel', 'ArticleController@store')->name('article.store'); // menyimpan data
 
-Route::get('/artikel', 'ArticleController@index'); // menampilkan semua
+Route::get('/artikel', 'ArticleController@index')->name('article'); // menampilkan semua
 
-Route::get('/artikel/{id}', 'ArticleController@show'); // menampilkan detail item dengan id 
-Route::get('/artikel/{id}/edit', 'ArticleController@edit'); // menampilkan form untuk edit item
-Route::put('/artikel/{id}', 'ArticleController@update'); // menyimpan perubahan dari form edit
+Route::get('/artikel/{article}', 'ArticleController@show')->name('article.show'); // menampilkan detail item dengan id 
+Route::get('/artikel/{article}/edit', 'ArticleController@edit')->name('article.edit'); // menampilkan form untuk edit item
+Route::put('/artikel/{article}', 'ArticleController@update')->name('article.update'); // menyimpan perubahan dari form edit
 
-Route::delete('/artikel/{id}', 'ArticleController@destroy'); // menghapus data dengan id
+Route::delete('/artikel/{article}', 'ArticleController@destroy')->name('article.delete'); // menghapus data dengan id

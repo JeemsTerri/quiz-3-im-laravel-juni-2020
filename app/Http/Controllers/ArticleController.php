@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -15,8 +16,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::pagination(5);
-        return view('article.index', compact('articels'));
+        $articles = Article::paginate(5);
+        return view('article.index', compact('articles'));
     }
 
     /**
@@ -45,9 +46,14 @@ class ArticleController extends Controller
 
         $user = User::find($request->user_id)->firstOrFail();
 
-        $user->articles()->create($request->except('user_id'));
+        $user->articles()->create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'slug' => Str::slug($request->title, '_'),
+            'tag' => $request->tag?: ''
+        ]);
         
-        return redirect(route('article.index'));
+        return redirect(route('article'));
     }
 
     /**
@@ -89,9 +95,14 @@ class ArticleController extends Controller
 
         $user = User::find($request->user_id)->firstOrFail();
 
-        $user->articles()->create($request->except('user_id'));
+        $article->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'slug' => Str::slug($request->title, '_'),
+            'tag' => $request->tag?: ''
+        ]);
         
-        return redirect(route('article.show'));
+        return redirect(route('article.show', $article->id));
     }
 
     /**
